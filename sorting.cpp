@@ -197,8 +197,11 @@ int main()
 
   gotoxy(0, 0);
   cout << "=== PROGRAM SORTING ===\n";
+  cout << "Dibuat oleh: Indra Adi Baskara\n";
+  cout << "NIM: A12.2025.07414\n";
+  cout << "Strategi Algoritma\n";
 
-  gotoxy(0, 2);
+  gotoxy(0, 5);
   cout << "Masukkan data (pisahkan dengan spasi): ";
   string line;
   getline(cin, line);
