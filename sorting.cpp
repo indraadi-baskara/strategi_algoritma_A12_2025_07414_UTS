@@ -145,6 +145,10 @@ void printArray(const vector<int> &a)
 // ── Main ───────────────────────────────────────────────────────────────────
 int main()
 {
+  while (true)
+  {
+  arr.clear();
+
   clearScreen();
 
   gotoxy(0, 0);
@@ -211,9 +215,15 @@ int main()
   printArray(arr);
 
   gotoxy(0, 8);
-  cout << "Selesai. Tekan enter untuk keluar...";
-  cin.ignore();
-  cin.get();
+  cout << "Pilih aksi:\n";
+  cout << "  1. Kembali ke menu awal\n";
+  cout << "  2. Keluar\n";
+  cout << "Pilihan: ";
+  int aksi;
+  cin >> aksi;
+
+  if (aksi == 2) break;
+  } // end while
 
   return 0;
 }
