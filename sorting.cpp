@@ -6,6 +6,7 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#include <conio.h>
 void gotoxy(int x, int y)
 {
   COORD coord = {(SHORT)x, (SHORT)y};
@@ -135,6 +136,49 @@ void heapSort(bool asc)
   }
 }
 
+// ── Arrow-key menu selector ────────────────────────────────────────────────
+// Returns 1-based index of the selected option.
+#ifdef _WIN32
+int selectMenu(int x, int y, const string options[], int count)
+{
+  int selected = 0;
+  while (true)
+  {
+    for (int i = 0; i < count; i++)
+    {
+      gotoxy(x, y + i);
+      if (i == selected)
+        cout << "> " << options[i] << "   ";
+      else
+        cout << "  " << options[i] << "   ";
+    }
+    int key = _getch();
+    if (key == 0 || key == 224)   // arrow key sends two bytes
+    {
+      key = _getch();
+      if (key == 72 && selected > 0) selected--;           // up
+      if (key == 80 && selected < count - 1) selected++;   // down
+    }
+    else if (key == 13) break;    // Enter
+  }
+  return selected + 1;
+}
+#else
+int selectMenu(int x, int y, const string options[], int count)
+{
+  for (int i = 0; i < count; i++)
+  {
+    gotoxy(x, y + i);
+    cout << "  " << (i + 1) << ". " << options[i];
+  }
+  gotoxy(x, y + count + 1);
+  cout << "Pilihan: ";
+  int choice;
+  cin >> choice;
+  return choice;
+}
+#endif
+
 // ── Helpers ────────────────────────────────────────────────────────────────
 void printArray(const vector<int> &a)
 {
@@ -166,23 +210,15 @@ int main()
 
   vector<int> original = arr;
 
+  string sortMethods[] = {"Selection Sort", "Merge Sort", "Quick Sort", "Heap Sort"};
   gotoxy(0, 4);
-  cout << "Pilih metode sorting:\n";
-  cout << "  1. Selection Sort\n";
-  cout << "  2. Merge Sort\n";
-  cout << "  3. Quick Sort\n";
-  cout << "  4. Heap Sort\n";
-  cout << "Pilihan: ";
-  int methodChoice;
-  cin >> methodChoice;
+  cout << "Pilih metode sorting:";
+  int methodChoice = selectMenu(0, 5, sortMethods, 4);
 
-  gotoxy(0, 11);
-  cout << "Pilih urutan:\n";
-  cout << "  1. Ascending\n";
-  cout << "  2. Descending\n";
-  cout << "Pilihan: ";
-  int orderChoice;
-  cin >> orderChoice;
+  string orders[] = {"Ascending", "Descending"};
+  gotoxy(0, 10);
+  cout << "Pilih urutan:";
+  int orderChoice = selectMenu(0, 11, orders, 2);
   bool asc = (orderChoice == 1);
 
   string methodNames[] = {"Selection Sort", "Merge Sort", "Quick Sort", "Heap Sort"};
@@ -214,13 +250,10 @@ int main()
   cout << "Hasil Sort : ";
   printArray(arr);
 
+  string aksiMenu[] = {"Kembali ke menu awal", "Keluar"};
   gotoxy(0, 8);
-  cout << "Pilih aksi:\n";
-  cout << "  1. Kembali ke menu awal\n";
-  cout << "  2. Keluar\n";
-  cout << "Pilihan: ";
-  int aksi;
-  cin >> aksi;
+  cout << "Pilih aksi:";
+  int aksi = selectMenu(0, 9, aksiMenu, 2);
 
   if (aksi == 2) break;
   } // end while
