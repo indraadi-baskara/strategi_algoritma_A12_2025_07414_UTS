@@ -214,14 +214,14 @@ int main()
   vector<int> original = arr;
 
   string sortMethods[] = {"Selection Sort", "Merge Sort", "Quick Sort", "Heap Sort"};
-  gotoxy(0, 4);
+  gotoxy(0, 7);
   cout << "Pilih metode sorting:";
-  int methodChoice = selectMenu(0, 5, sortMethods, 4);
+  int methodChoice = selectMenu(0, 8, sortMethods, 4);
 
   string orders[] = {"Ascending", "Descending"};
-  gotoxy(0, 10);
+  gotoxy(0, 13);
   cout << "Pilih urutan:";
-  int orderChoice = selectMenu(0, 11, orders, 2);
+  int orderChoice = selectMenu(0, 14, orders, 2);
   bool asc = (orderChoice == 1);
 
   string methodNames[] = {"Selection Sort", "Merge Sort", "Quick Sort", "Heap Sort"};
