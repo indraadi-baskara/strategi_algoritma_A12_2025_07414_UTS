@@ -266,6 +266,21 @@ void loadPreset(int choice)
   n = arr.size();
 }
 
+// ── Run sort by method index ───────────────────────────────────────────────
+void doSort(int method, bool asc)
+{
+  switch (method)
+  {
+  case 1: exchangeSort(asc); break;
+  case 2: bubbleSort(asc); break;
+  case 3: quickSort(0, n - 1, asc); break;
+  case 4: selectionSort(asc); break;
+  case 5: insertionSort(asc); break;
+  case 6: mergeSort(0, n - 1, asc); break;
+  case 7: heapSort(asc); break;
+  }
+}
+
 // ── Main ───────────────────────────────────────────────────────────────────
 int main()
 {
@@ -331,6 +346,15 @@ int main()
       }
     }
 
+    // ── Tampilkan data sesuai urutan input (point 3)
+    clearScreen();
+    drawHeader();
+    cout << "\nData Siswa (Urutan Input):\n\n";
+    printTable();
+    cout << "\nTekan enter untuk ke menu sorting...";
+    cin.ignore();
+    cin.get();
+
     // ── Loop pilih metode sorting
     vector<Siswa> original = arr;
     bool keluar = false;
@@ -351,38 +375,32 @@ int main()
 
       if (methodChoice == 8) { keluar = true; break; }
 
-      // ── Pilih urutan
-      clearScreen();
-      drawHeader();
-
-      string orderOpts[] = {"Ascending", "Descending"};
-      int orderChoice = inputMenu(0, 5, orderOpts, 2);
-      bool asc = (orderChoice == 1);
-
       string methodNames[] = {"Exchange Sort", "Bubble Sort", "Quick Sort",
                                "Selection Sort", "Insertion Sort",
                                "Merge Sort", "Heap Sort"};
       string methodName = methodNames[methodChoice - 1];
-      string orderName = asc ? "Ascending" : "Descending";
 
-      switch (methodChoice)
-      {
-      case 1: exchangeSort(asc); break;
-      case 2: bubbleSort(asc); break;
-      case 3: quickSort(0, n - 1, asc); break;
-      case 4: selectionSort(asc); break;
-      case 5: insertionSort(asc); break;
-      case 6: mergeSort(0, n - 1, asc); break;
-      case 7: heapSort(asc); break;
-      }
+      // ── Sort ascending, simpan hasil
+      arr = original;
+      doSort(methodChoice, true);
+      vector<Siswa> ascResult = arr;
 
-      // ── Tampilkan hasil
+      // ── Sort descending, simpan hasil
+      arr = original;
+      doSort(methodChoice, false);
+      vector<Siswa> descResult = arr;
+
+      // ── Tampilkan kedua hasil (point 4)
       clearScreen();
-
       gotoxy(0, 0);
-      cout << "=== HASIL SORTING ===\n";
-      cout << "Metode    : " << methodName << " (" << orderName << ")\n\n";
+      cout << "=== HASIL SORTING: " << methodName << " ===\n\n";
 
+      cout << "--- Ascending ---\n";
+      arr = ascResult;
+      printTable();
+
+      cout << "\n--- Descending ---\n";
+      arr = descResult;
       printTable();
 
       cout << "\nTekan enter untuk kembali ke menu...";
